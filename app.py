@@ -18,7 +18,7 @@ import base64 ; import datetime
 
 
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.SOLAR])
-app.title = 'Clariti Requirement'
+# app.title = 'Clariti Requirement'
 # the model google universal-sentence-encoder can be downloaded from this link
 # if the model as be downloaded already you dont have to download it again
 #"https://tfhub.dev/google/universal-sentence-encoder/4"
