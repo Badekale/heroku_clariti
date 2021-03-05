@@ -2,6 +2,7 @@ import numpy as np
 import re , io ; import string
 import pandas as pd
 import nltk
+from nltk.stem import WordNetLemmatizer
 from nltk.corpus import wordnet,stopwords
 import scipy.spatial
 import os ; import pickle
@@ -13,7 +14,7 @@ import dash_html_components as html
 from dash.dependencies import Input, Output,State
 import dash_bootstrap_components as dbc
 import spacy
-import en_core_web_sm as en
+# import en_core_web_sm as en
 import base64 ; import datetime
 
 
@@ -57,6 +58,7 @@ domain_id = ['All Domain','Finance', 'Inspections', 'Permits', 'Citizen Request'
 
 
 stop_words = set(stopwords.words('english'))
+lemmatizer = WordNetLemmatizer() 
 
 def remove_stopwords(tokenized_text): 
     text = tokenized_text.split(' ')
@@ -64,7 +66,16 @@ def remove_stopwords(tokenized_text):
     return text
  
 
-nlp = en.load(disable=['parser', 'ner'])
+# nlp = en.load(disable=['parser', 'ner'])
+def get_wordnet_pos(word):
+    """Map POS tag to first character lemmatize() accepts"""
+    tag = nltk.pos_tag([word])[0][1][0].upper()
+    tag_dict = {"J": wordnet.ADJ,
+                "N": wordnet.NOUN,
+                "V": wordnet.VERB,
+                "R": wordnet.ADV}
+
+    return tag_dict.get(tag, wordnet.NOUN)
 
 def clean(aa):
     aa=str(aa)
@@ -75,8 +86,9 @@ def clean(aa):
     aa = aa.translate(table)
     aa= re.sub(r"\s+", ' ', aa)
     aa = aa.strip()
-    aa = nlp(aa)
-    aa = " ".join([token.lemma_ for token in aa])
+    # aa = nlp(aa)
+    aa= ' '.join([lemmatizer.lemmatize(w,get_wordnet_pos(w)) for w in aa.split(' ')])
+    # aa = " ".join([token.lemma_ for token in aa])
     aa = re.sub(r'\b(\w+)( \1\b)+', r'\1', aa)
     return aa
 
