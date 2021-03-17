@@ -111,6 +111,7 @@ header1= dbc.Card([ dbc.Row([dbc.Col([html.H2('RFP Capability Check')],width={"s
 
 
 def parse_contents(contents, filename): 
+    contents = str(contents)
     content_type, content_string = contents.split(',')
     decoded = base64.b64decode(content_string)
     df = pd.read_csv(io.StringIO(decoded.decode('utf-8')),names=['capa'])
@@ -121,7 +122,7 @@ def parse_contents(contents, filename):
     return filename,df
 
 app.layout = html.Div(style={'background-color':'#124654' },children=[header1,
-         html.Br(),
+         html.Br(),html.Div(id='model_statue',style={'color': '#2274A5','margin-left': '11%'}),
          
          html.Div([ dbc.Row([ dbc.Col([ "Upload CSV file: "],width={"size": 1} , style={'align-items':'left','margin-left': '2%','margin-top': 25} ),
                              dbc.Col([ dcc.Upload(id='upload-data',children=html.Div(['Drag and Drop or ',html.A('Select Files')]),
@@ -161,6 +162,13 @@ app.layout = html.Div(style={'background-color':'#124654' },children=[header1,
         html.Div([ html.H4(id='info_text',style={'color': '#2274A5','margin-left': '8.66666666667%' }) ,html.Div(id='update-table')
                         ]) 
         ])
+
+@app.callback(Output('model_statue', 'children'),Input('upload-data', 'contents'))
+def update1_output(list_of_contents):
+    try:
+        model
+        return html.H5('Model is Ready')
+    except NameError:return html.H5('Model is Loading.....') 
          
 @app.callback(Output('file_name', 'children'),
               Input('upload-data', 'contents'),
