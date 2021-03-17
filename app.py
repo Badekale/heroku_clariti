@@ -14,6 +14,7 @@ import dash_html_components as html
 from dash.dependencies import Input, Output,State
 import dash_bootstrap_components as dbc
 import spacy
+import threading
 # import en_core_web_sm as en
 import base64 ; import datetime
 
@@ -24,11 +25,16 @@ server = app.server
 # the model google universal-sentence-encoder can be downloaded from this link
 # if the model as be downloaded already you dont have to download it again
 #"https://tfhub.dev/google/universal-sentence-encoder/4"
+def thread_function(name):
+    # Import the Universal Sentence Encoder's TF Hub module
+    module_url = "https://tfhub.dev/google/universal-sentence-encoder/4"
+    global model 
+    model = hub.load(module_url)
+    
 
-module_url = 'https://tfhub.dev/google/universal-sentence-encoder/4'
+x = threading.Thread(target=thread_function, args=(1,))
+x.start()
 
-# Import the Universal Sentence Encoder's TF Hub module
-model = hub.load(module_url)
 
 all_files = os.listdir("app2_file")
 all_files = filter(lambda x: x != '.DS_Store', all_files)
