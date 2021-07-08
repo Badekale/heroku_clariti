@@ -47,10 +47,6 @@ print(file_path,'\n')
 
 PIK=f'{file_path}/All_Domains.plk' 
 
-# load saved train universal encoded model 
-
-
-# load safe csv files
 pickle_raw=[]
 for x in ('All_Capabilities','Finance_domain', 'Inspections_domain', 'Permits_domain',
               'Citizen_domain','Planning_domain','Licenses_domain','Code_domain'):
