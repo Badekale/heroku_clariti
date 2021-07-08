@@ -48,10 +48,7 @@ print(file_path,'\n')
 PIK=f'{file_path}/All_Domains.plk' 
 
 # load saved train universal encoded model 
-pickle_domain= []
-with open(PIK, "rb") as f:
-    for _ in range(pickle.load(f)):
-        pickle_domain.append(pickle.load(f))
+
 
 # load safe csv files
 pickle_raw=[]
