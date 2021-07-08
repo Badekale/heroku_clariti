@@ -19,17 +19,7 @@ import threading
 import base64 ; import datetime
 
 
-app = dash.Dash(__name__, external_stylesheets=[dbc.themes.SOLAR])
-server = app.server
-# app.title = 'Clariti Requirement'
-# the model google universal-sentence-encoder can be downloaded from this link
-# if the model as be downloaded already you dont have to download it again
-#"https://tfhub.dev/google/universal-sentence-encoder/4"
-def thread_function(name):
-    # Import the Universal Sentence Encoder's TF Hub module
-    module_url = "https://tfhub.dev/google/universal-sentence-encoder/4"
-    global model 
-    model = hub.load(module_url)
+
     
 
 x = threading.Thread(target=thread_function, args=(1,))
@@ -67,10 +57,6 @@ domain_id = ['All Domain','Finance', 'Inspections', 'Permits', 'Citizen Request'
 stop_words = set(stopwords.words('english'))
 lemmatizer = WordNetLemmatizer() 
 
-def remove_stopwords(tokenized_text): 
-    text = tokenized_text.split(' ')
-    text = " ".join([word for word in text if word not in stop_words])
-    return text
  
 
 # nlp = en.load(disable=['parser', 'ner'])
@@ -223,8 +209,6 @@ def gg(id_button,list_of_contents,domain_id,accuracy_id, list_of_names):
             if len(i)>0:
                 count_1+=1
         perc = f'{(count_1/len(list_of_capa)*100):.2f}'
-
-        print('hope')
 
         return f'We are able to cover {perc}% of the RFP',dbc.Col(dbc.Table.from_dataframe(dis, striped=True, bordered=True, hover=True),width=5)
 
