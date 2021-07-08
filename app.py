@@ -224,6 +224,7 @@ def gg(id_button,list_of_contents,domain_id,accuracy_id, list_of_names):
                 count_1+=1
         perc = f'{(count_1/len(list_of_capa)*100):.2f}'
 
+        print('hope')
 
         return f'We are able to cover {perc}% of the RFP',dbc.Col(dbc.Table.from_dataframe(dis, striped=True, bordered=True, hover=True),width=5)
 
